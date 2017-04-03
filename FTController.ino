@@ -198,6 +198,25 @@ inline void show_menu()
 		lcd.print(F("UNKNOWN"));
 		break;
 	}
+	
+	//Change the mode
+	char mode_action = menu_action_lx();
+	if (mode_action != 0)
+	{
+		if (mode + mode_action > MODE_MAX_VAL) //When at end of the modes jump to the first one
+			mode = 0;
+		else if (mode_action + mode < 0)
+			mode = MODE_MAX_VAL;
+		else
+			mode += mode_action;
+	}
+}
+
+char menu_action_lx()
+{
+	static char lx_laststate = 0;
+	static char lx_action = 0;
+	static long lasttime = millis();
 
 	if (joysticks[JOYSTICK_LX] > THRESHOLD_P)
 	{
@@ -222,9 +241,11 @@ inline void show_menu()
 
 	if (lx_action != 0)
 	{
-		mode += lx_action;
+		uint8_t tmp = lx_action;
 		lx_action = 0;
+		return tmp;
 	}
+	return 0;
 }
 
 /********************************************
