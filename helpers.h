@@ -152,6 +152,7 @@ void motor_output_analog_raw(uint8_t motor, int16_t value);
 uint16_t read_MCU_volt();	//Gets the voltage of the AVR (should be around 5V)
 uint16_t read_input_volt();	//Gets the voltage of the input
 int16_t map_joy_with_table(int16_t val, const uint8_t[25]); //Map the value using the given lookup table
+void stop_motors();	//Halt all motors
 
 
 #endif

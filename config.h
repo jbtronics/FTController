@@ -34,6 +34,8 @@
 #define VOLT_OFFSET		150
 #define REF_1V1			1100
 
+#define DOUBLECLICK_TIME	300
+
 #define DISPLAY_FIX				//Define this if you want to use the VOLT_MEASURE PIN for DISPLAY_E
 
 #endif

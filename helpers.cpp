@@ -247,3 +247,15 @@ int16_t map_joy_with_table(int16_t val, const uint8_t table[25])
 		return - pgm_read_byte(&(table[index]));
 }
 
+void stop_motors()
+{
+	SoftPWMSet(MOTOR_LX1, 0);
+	SoftPWMSet(MOTOR_LX2, 0);
+	SoftPWMSet(MOTOR_LY1, 0);
+	SoftPWMSet(MOTOR_LY2, 0);
+	SoftPWMSet(MOTOR_RX1, 0);
+	SoftPWMSet(MOTOR_RX2, 0);
+	SoftPWMSet(MOTOR_RY1, 0);
+	SoftPWMSet(MOTOR_RY2, 0);
+}
+

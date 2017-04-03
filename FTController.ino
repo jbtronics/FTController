@@ -13,6 +13,7 @@ uint8_t menu = MENU_HIDDEN;
 
 uint8_t mode;
 uint8_t display_mode;
+uint8_t freeze = 0;
 
 int16_t joysticks[4];
 int16_t output_val[4];
@@ -93,6 +94,13 @@ void update_display()
 			show_menu();
 			return;
 		}
+
+		if (freeze == 1)
+		{
+			lasttime = millis();
+			lcd.print("FREEZED");
+			return;
+		}
 		switch (display_mode)
 		{
 		case DISPLAY_INPUT:
@@ -109,8 +117,6 @@ void update_display()
 		lasttime = millis();
 	}
 }
-
-
 
 inline void display_input()
 {
@@ -353,11 +359,14 @@ inline void mode_sqrt()
 ******************************************************/
 void read_joysticks()
 {
-	//Calculate 
-	joysticks[JOYSTICK_LX] = analogRead(JOYL_X) - MID_LX;
-	joysticks[JOYSTICK_LY] = analogRead(JOYL_Y) - MID_LY;
-	joysticks[JOYSTICK_RX] = analogRead(JOYR_X) - MID_RX;
-	joysticks[JOYSTICK_RY] = analogRead(JOYR_Y) - MID_RY;
+	if (freeze == 0) //Dont read the joysticks if the freeze mode is activated
+	{
+		//Calculate 
+		joysticks[JOYSTICK_LX] = analogRead(JOYL_X) - MID_LX;
+		joysticks[JOYSTICK_LY] = analogRead(JOYL_Y) - MID_LY;
+		joysticks[JOYSTICK_RX] = analogRead(JOYR_X) - MID_RX;
+		joysticks[JOYSTICK_RY] = analogRead(JOYR_Y) - MID_RY;
+	}
 }
 
 void startup_banner()
@@ -412,13 +421,29 @@ void read_eeprom()
 
 void button_pressedCallback()
 {
+	static long lasttime = millis();
 	if (menu == MENU_SHOW)	//Toggle menu visibility
 	{
 		menu = MENU_HIDDEN;
 		eeprom_save();
 	}
 	else
+	{
 		menu = MENU_SHOW;
+		stop_motors();
+	}
+
+	if (millis() - lasttime < DOUBLECLICK_TIME) //If button was double clicked, activate FREEZE mode
+	{
+		if (freeze == 0)
+			freeze = 1;
+		else
+			freeze = 0;
+		menu = MENU_HIDDEN;		//Hide menu
+	}
+
+
+	lasttime = millis();
 }
 
 void button_releasedCallback()
@@ -428,5 +453,5 @@ void button_releasedCallback()
 
 void button_pressedDurationCallback(unsigned long duration)
 {
-	
+
 }
