@@ -32,7 +32,7 @@ void setup()
 	//Override read modes
 	//mode = MODE_DIGITAL;
 	//mode = MODE_ANALOG;
-	display_mode = DISPLAY_VOLT;
+	//display_mode = DISPLAY_VOLT;
 
 	button.registerCallbacks(button_pressedCallback, button_releasedCallback, button_pressedDurationCallback);
 	button.setup(SW_L);
@@ -171,10 +171,33 @@ void display_out()
 
 inline void show_menu()
 {
-	static char lx_laststate = 0;
-	static char lx_action = 0;
-	static long lasttime = millis();
+	switch (menu)
+	{
+	case MENU_MODES:
+		menu_modes();
+		break;
+	case MENU_DISPLAY:
+		menu_display();
+		break;
+	default:
+		lcd.print(F("ERROR"));
+	}
 
+	//Check if we should change the sub menu
+	char action = menu_action_ly();
+	if (action != 0)
+	{
+		if (menu + action > MENU_MAX_VAL) //When at end of the modes jump to the first one
+			menu = 1;
+		else if (menu + action < 1)
+			menu = MENU_MAX_VAL;
+		else
+			menu += action;
+	}
+}
+
+void menu_modes()
+{
 	lcd.print(F("MODE:"));
 	lcd.setCursor(0, 1);
 	switch (mode)
@@ -204,7 +227,7 @@ inline void show_menu()
 		lcd.print(F("UNKNOWN"));
 		break;
 	}
-	
+
 	//Change the mode
 	char mode_action = menu_action_lx();
 	if (mode_action != 0)
@@ -215,6 +238,38 @@ inline void show_menu()
 			mode = MODE_MAX_VAL;
 		else
 			mode += mode_action;
+	}
+}
+
+void menu_display()
+{
+	lcd.print(F("DISPLAY:"));
+	lcd.setCursor(0, 1);
+	switch (display_mode)
+	{
+	case DISPLAY_VOLT:
+		lcd.print(F("Voltages"));
+		break;
+	case DISPLAY_INPUT:
+		lcd.print(F("In Vals"));
+		break;
+	case DISPLAY_OUT:
+		lcd.print(F("Out Vals"));
+		break;
+	default:
+		lcd.print(F("UNKNOWN"));
+	}
+
+	//Change the mode
+	char mode_action = menu_action_lx();
+	if (mode_action != 0)
+	{
+		if (display_mode + mode_action > DISPLAY_MAX_VAL) //When at end of the modes jump to the first one
+			display_mode = 0;
+		else if (mode_action + display_mode < 0)
+			display_mode = DISPLAY_MAX_VAL;
+		else
+			display_mode += mode_action;
 	}
 }
 
@@ -233,6 +288,42 @@ char menu_action_lx()
 		lx_laststate = -1;
 	}
 	else if (joysticks[JOYSTICK_LX] < THRESHOLD_N)
+	{
+		if (millis() - lasttime > THRESHOLD_TIME && lx_laststate != 1)
+		{
+			lx_action = 1;
+		}
+		lx_laststate = 1;
+	}
+	else
+	{
+		lx_laststate = 0;
+	}
+
+	if (lx_action != 0)
+	{
+		uint8_t tmp = lx_action;
+		lx_action = 0;
+		return tmp;
+	}
+	return 0;
+}
+
+char menu_action_ly()
+{
+	static char lx_laststate = 0;
+	static char lx_action = 0;
+	static long lasttime = millis();
+
+	if (joysticks[JOYSTICK_LY] > THRESHOLD_P)
+	{
+		if (millis() - lasttime > THRESHOLD_TIME && lx_laststate != -1)
+		{
+			lx_action = -1;
+		}
+		lx_laststate = -1;
+	}
+	else if (joysticks[JOYSTICK_LY] < THRESHOLD_N)
 	{
 		if (millis() - lasttime > THRESHOLD_TIME && lx_laststate != 1)
 		{
@@ -421,8 +512,8 @@ void read_eeprom()
 
 void button_pressedCallback()
 {
-	static long lasttime = millis();
-	if (menu == MENU_SHOW)	//Toggle menu visibility
+	static long lasttime = 0;
+	if (menu != MENU_HIDDEN)	//Toggle menu visibility
 	{
 		menu = MENU_HIDDEN;
 		eeprom_save();

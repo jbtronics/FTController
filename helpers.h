@@ -111,8 +111,9 @@ const PROGMEM uint8_t TABLE_SQRT[26] = { 0, 51, 72, 88, 102, 114, 125, 135, 144,
 #define MODE_SQUARE		4
 #define MODE_LN			5
 #define MODE_SQRT		6
+#define MODE_BLINK		7
 
-#define MODE_MAX_VAL	6	//Whats the index of the Mode with the highest value
+#define MODE_MAX_VAL	7	//Whats the index of the Mode with the highest value
 #define MODE_DEFAULT	MODE_DIGITAL
 
 //Display mode
@@ -126,6 +127,11 @@ const PROGMEM uint8_t TABLE_SQRT[26] = { 0, 51, 72, 88, 102, 114, 125, 135, 144,
 //Menu states
 #define MENU_HIDDEN		0
 #define MENU_SHOW		1
+#define MENU_MODES		1
+#define MENU_DISPLAY	2
+
+#define MENU_MAX_VAL	2
+#define MENU_DEFAULT	MENU_MODES
 
 #define THRESHOLD_TIME	50
 
