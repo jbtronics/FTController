@@ -128,7 +128,7 @@ void motor_output_analog(uint8_t motor, int16_t val)
 	}
 }
 
-void motor_output_analog_no_thre(uint8_t motor, int16_t val)
+void motor_output_analog_raw(uint8_t motor, int16_t val)
 {
 	uint16_t m1, m2;
 	switch (motor)
@@ -153,17 +153,15 @@ void motor_output_analog_no_thre(uint8_t motor, int16_t val)
 
 	if (val > 0)
 	{
-		val = map(val, TOLERANCE_P, MAXIMUM_P, 0, 300);
 		if (val > 255) val = 255;
 		SoftPWMSet(m1, val);
 		SoftPWMSet(m2, 0);
 	}
 	else if (val < 0)
 	{
-		val = map(val, TOLERANCE_N, MAXIMUM_N, 0, 300);
-		if (val > 255) val = 255;
+		if (val < -255) val = -255;
 		SoftPWMSet(m1, 0);
-		SoftPWMSet(m2, val);
+		SoftPWMSet(m2, -val);
 	}
 	else
 	{
@@ -229,11 +227,23 @@ int16_t map_joy_with_table(int16_t val, const uint8_t table[25])
 	if (val < 0 && val > TOLERANCE_N)
 		return 0;
 
-	uint8_t index = abs(val) / 10;
-	
+	int16_t pwm;
 	if (val > 0)
-		return table[index];
+	{
+		pwm = map(val, TOLERANCE_P, MAXIMUM_P, 0, 300);
+	}
+	else if (val < 0)
+	{
+		pwm = map(val, TOLERANCE_N, MAXIMUM_N, 0, 300);
+	}
+	
+	if (pwm > 255) pwm = 255;
+
+	uint8_t index = pwm / 10;
+
+	if (val > 0)
+		return pgm_read_byte(&(table[index]));
 	else
-		return -table[index];
+		return - pgm_read_byte(&(table[index]));
 }
 

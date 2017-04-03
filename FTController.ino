@@ -5,14 +5,17 @@
 #include "chars.h"
 #include <LiquidCrystal.h>
 
-int16_t joysticks[4];
+//Global objects
 LiquidCrystal lcd(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
-
 static InputDebounce button;
+
 uint8_t menu = MENU_HIDDEN;
 
 uint8_t mode;
 uint8_t display_mode;
+
+int16_t joysticks[4];
+int16_t output_val[4];
 
 void setup()
 {
@@ -28,7 +31,7 @@ void setup()
 	//Override read modes
 	//mode = MODE_DIGITAL;
 	//mode = MODE_ANALOG;
-	display_mode = DISPLAY_OUT;
+	display_mode = DISPLAY_VOLT;
 
 	button.registerCallbacks(button_pressedCallback, button_releasedCallback, button_pressedDurationCallback);
 	button.setup(SW_L);
@@ -51,8 +54,17 @@ void loop()
 		case MODE_ANALOG:
 			mode_analog();
 			break;
-		case MODE_ANALOG2:
-			mode_analog2();
+		case MODE_EXP:
+			mode_exp();
+			break;
+		case MODE_SQUARE:
+			mode_square();
+			break;
+		case MODE_LN:
+			mode_log();
+			break;
+		case MODE_SQRT:
+			mode_sqrt();
 			break;
 		default:
 			break;
@@ -65,6 +77,10 @@ void loop()
 	//delay(100);
 }
 
+
+/*********************************************
+* DISPLAY
+**********************************************/
 void update_display()
 {
 	static long lasttime = millis();
@@ -85,11 +101,67 @@ void update_display()
 		case DISPLAY_VOLT:
 			display_volt();
 			break;
+		case DISPLAY_OUT:
+			display_out();
+			break;
 		}
 
 		lasttime = millis();
 	}
 }
+
+
+
+inline void display_input()
+{
+	//lcd.clear();
+	lcd.setCursor(0, 0);
+	lcd.print(joysticks[JOYSTICK_LX]);
+	lcd.setCursor(4, 0);
+	lcd.print(joysticks[JOYSTICK_LY]);
+	lcd.setCursor(0, 1);
+	lcd.print(joysticks[JOYSTICK_RX]);
+	lcd.setCursor(4, 1);
+	lcd.print(joysticks[JOYSTICK_RY]);
+}
+
+void display_volt()
+{
+	//Input Voltage
+	lcd.setCursor(0, 0);
+	lcd.print(F("IN:"));
+	uint16_t val = read_input_volt();
+	if (val < 10000) //Insert space if only one digit
+		lcd.print(" ");
+	lcd.print(val / 1000.0, 1);
+	lcd.setCursor(7, 0);
+	lcd.print(F("V"));
+
+	//5V Voltage
+	lcd.setCursor(0, 1);
+	lcd.print(F("5V:"));
+	val = read_MCU_volt();
+	if (val < 10000) //Insert space if only one digit
+		lcd.print(" ");
+	lcd.print(val / 1000.0, 1);
+	lcd.setCursor(7, 1);
+	lcd.print(F("V"));
+}
+
+void display_out()
+{
+	lcd.print(output_val[JOYSTICK_LX]);
+	lcd.setCursor(4, 0);
+	lcd.print(output_val[JOYSTICK_LY]);
+	lcd.setCursor(0, 1);
+	lcd.print(output_val[JOYSTICK_RX]);
+	lcd.setCursor(4, 1);
+	lcd.print(output_val[JOYSTICK_RY]);
+}
+
+/*******************************************
+* MENU
+*******************************************/
 
 inline void show_menu()
 {
@@ -97,18 +169,30 @@ inline void show_menu()
 	static char lx_action = 0;
 	static long lasttime = millis();
 
-	lcd.print("MODE:");
+	lcd.print(F("MODE:"));
 	lcd.setCursor(0, 1);
 	switch (mode)
 	{
+	case MODE_NOTHING:
+		lcd.print(F("None"));
+		break;
 	case MODE_DIGITAL:
 		lcd.print(F("Digital"));
 		break;
 	case MODE_ANALOG:
 		lcd.print(F("Linear"));
 		break;
-	case MODE_ANALOG2:
-		lcd.print(F("Analog2"));
+	case MODE_EXP:
+		lcd.print(F("Exp"));
+		break;
+	case MODE_SQUARE:
+		lcd.print(F("Square"));
+		break;
+	case MODE_LN:
+		lcd.print(F("Log"));
+		break;
+	case MODE_SQRT:
+		lcd.print(F("Sqrt"));
 		break;
 	default:
 		lcd.print(F("UNKNOWN"));
@@ -143,18 +227,9 @@ inline void show_menu()
 	}
 }
 
-inline void display_input()
-{
-	//lcd.clear();
-	lcd.setCursor(0, 0);
-	lcd.print(joysticks[JOYSTICK_LX]);
-	lcd.setCursor(4, 0);
-	lcd.print(joysticks[JOYSTICK_LY]);
-	lcd.setCursor(0, 1);
-	lcd.print(joysticks[JOYSTICK_RX]);
-	lcd.setCursor(4, 1);
-	lcd.print(joysticks[JOYSTICK_RY]);
-}
+/********************************************
+* MODE HANDLING
+*********************************************/
 
 inline void mode_digital()
 {
@@ -200,14 +275,61 @@ inline void mode_analog()
 	motor_output_analog(MOTOR_RY, joysticks[JOYSTICK_RY]);
 }
 
-inline void mode_analog2()
+inline void mode_exp()
 {
-	//motor_output_analog(MOTOR_LX, joysticks[JOYSTICK_LX]);
-	motor_output_analog_table(MOTOR_LY, joysticks[JOYSTICK_LY], TABLE_SQUARE);
-	//motor_output_analog(MOTOR_RX, joysticks[JOYSTICK_RX]);
-	//motor_output_analog(MOTOR_RY, joysticks[JOYSTICK_RY]);
+	output_val[JOYSTICK_LX] = map_joy_with_table(joysticks[JOYSTICK_LX], TABLE_EXP);
+	output_val[JOYSTICK_LY] = map_joy_with_table(joysticks[JOYSTICK_LY], TABLE_EXP);
+	output_val[JOYSTICK_RX] = map_joy_with_table(joysticks[JOYSTICK_RX], TABLE_EXP);
+	output_val[JOYSTICK_RY] = map_joy_with_table(joysticks[JOYSTICK_RY], TABLE_EXP);
+
+	motor_output_analog_raw(MOTOR_LX ,output_val[JOYSTICK_LX]);
+	motor_output_analog_raw(MOTOR_LY, output_val[JOYSTICK_LY]);
+	motor_output_analog_raw(MOTOR_RX, output_val[JOYSTICK_RX]);
+	motor_output_analog_raw(MOTOR_RY, output_val[JOYSTICK_RY]);
 }
 
+inline void mode_square()
+{
+	output_val[JOYSTICK_LX] = map_joy_with_table(joysticks[JOYSTICK_LX], TABLE_SQUARE);
+	output_val[JOYSTICK_LY] = map_joy_with_table(joysticks[JOYSTICK_LY], TABLE_SQUARE);
+	output_val[JOYSTICK_RX] = map_joy_with_table(joysticks[JOYSTICK_RX], TABLE_SQUARE);
+	output_val[JOYSTICK_RY] = map_joy_with_table(joysticks[JOYSTICK_RY], TABLE_SQUARE);
+
+	motor_output_analog_raw(MOTOR_LX, output_val[JOYSTICK_LX]);
+	motor_output_analog_raw(MOTOR_LY, output_val[JOYSTICK_LY]);
+	motor_output_analog_raw(MOTOR_RX, output_val[JOYSTICK_RX]);
+	motor_output_analog_raw(MOTOR_RY, output_val[JOYSTICK_RY]);
+}
+
+inline void mode_log()
+{
+	output_val[JOYSTICK_LX] = map_joy_with_table(joysticks[JOYSTICK_LX], TABLE_LOG);
+	output_val[JOYSTICK_LY] = map_joy_with_table(joysticks[JOYSTICK_LY], TABLE_LOG);
+	output_val[JOYSTICK_RX] = map_joy_with_table(joysticks[JOYSTICK_RX], TABLE_LOG);
+	output_val[JOYSTICK_RY] = map_joy_with_table(joysticks[JOYSTICK_RY], TABLE_LOG);
+
+	motor_output_analog_raw(MOTOR_LX, output_val[JOYSTICK_LX]);
+	motor_output_analog_raw(MOTOR_LY, output_val[JOYSTICK_LY]);
+	motor_output_analog_raw(MOTOR_RX, output_val[JOYSTICK_RX]);
+	motor_output_analog_raw(MOTOR_RY, output_val[JOYSTICK_RY]);
+}
+
+inline void mode_sqrt()
+{
+	output_val[JOYSTICK_LX] = map_joy_with_table(joysticks[JOYSTICK_LX], TABLE_SQRT);
+	output_val[JOYSTICK_LY] = map_joy_with_table(joysticks[JOYSTICK_LY], TABLE_SQRT);
+	output_val[JOYSTICK_RX] = map_joy_with_table(joysticks[JOYSTICK_RX], TABLE_SQRT);
+	output_val[JOYSTICK_RY] = map_joy_with_table(joysticks[JOYSTICK_RY], TABLE_SQRT);
+
+	motor_output_analog_raw(MOTOR_LX, output_val[JOYSTICK_LX]);
+	motor_output_analog_raw(MOTOR_LY, output_val[JOYSTICK_LY]);
+	motor_output_analog_raw(MOTOR_RX, output_val[JOYSTICK_RX]);
+	motor_output_analog_raw(MOTOR_RY, output_val[JOYSTICK_RY]);
+}
+
+/******************************************************
+* HELPER FUNCTIONS
+******************************************************/
 void read_joysticks()
 {
 	//Calculate 
@@ -239,48 +361,6 @@ void startup_banner()
 	lcd.clear();
 }
 
-uint16_t update_volt()
-{
-	lcd.setCursor(0, 0);
-	lcd.print("V: ");
-	lcd.print(read_MCU_volt());
-}
-
-void display_volt()
-{
-	//Input Voltage
-	lcd.setCursor(0, 0);
-	lcd.print(F("IN:"));
-	uint16_t val = read_input_volt();
-	if (val < 10000) //Insert space if only one digit
-		lcd.print(" ");
-	lcd.print(val / 1000.0, 1);
-	lcd.setCursor(7, 0);
-	lcd.print(F("V"));
-
-	//5V Voltage
-	lcd.setCursor(0, 1);
-	lcd.print(F("5V:"));
-	val = read_MCU_volt();
-	if (val < 10000) //Insert space if only one digit
-		lcd.print(" ");
-	lcd.print(val / 1000.0, 1);
-	lcd.setCursor(7, 1);
-	lcd.print(F("V"));
-}
-
-void button_pressedCallback()
-{
-	if (menu == MENU_SHOW)	//Toggle menu visibility
-	{
-		menu = MENU_HIDDEN;
-		eeprom_save();
-	}
-	else
-		menu = MENU_SHOW;
-}
-
-
 void eeprom_save()
 {
 	//Save Mode
@@ -303,6 +383,21 @@ void read_eeprom()
 		display_mode = DISPLAY_DEFAULT;
 	else
 		display_mode = tmp;
+}
+
+/***************************************************
+* BUTTON HANDLERS
+****************************************************/
+
+void button_pressedCallback()
+{
+	if (menu == MENU_SHOW)	//Toggle menu visibility
+	{
+		menu = MENU_HIDDEN;
+		eeprom_save();
+	}
+	else
+		menu = MENU_SHOW;
 }
 
 void button_releasedCallback()

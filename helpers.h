@@ -18,9 +18,13 @@
 * Lookup Tables
 *********************************/
 //Square lookup (f(x)=51/125x^2)
-const PROGMEM uint8_t TABLE_SQUARE[25] = {0, 2, 4, 7,  10, 15, 20, 26, 33, 41, 49, 59, 69, 80, 92, 104, 118, 132, 147, 163, 180, 198, 216, 235, 255};
+const PROGMEM uint8_t TABLE_SQUARE[26] = {0, 0, 2, 4, 7,  10, 15, 20, 26, 33, 41, 49, 59, 69, 80, 92, 104, 118, 132, 147, 163, 180, 198, 216, 235, 255};
 //Exponential lookup(f(x) = e^0.2216505418)
-const PROGMEM uint8_t TABLE_EXP[25] = {1, 2, 2, 2, 3, 4, 6, 7, 9, 11, 14, 18, 22, 28, 35, 43, 54, 67, 84, 105, 131, 164, 204, 255};
+const PROGMEM uint8_t TABLE_EXP[26] = {0, 1, 1, 2, 2, 2, 3, 4, 6, 7, 9, 11, 14, 18, 22, 28, 35, 43, 54, 67, 84, 105, 131, 164, 204, 255};
+//Logarithmic lookup(f(x) = 78.26655748 * ln(x+1)
+const PROGMEM uint8_t TABLE_LOG[26] = { 0, 54, 86, 109, 126, 140, 152, 163, 172, 180, 188, 194, 201, 207, 212, 217, 222, 226, 230, 234, 238, 242, 245, 249, 252, 255 };
+//Square root lookup(f(x) = 51 * SQRT(x))
+const PROGMEM uint8_t TABLE_SQRT[26] = { 0, 51, 72, 88, 102, 114, 125, 135, 144, 153, 161, 169, 177, 184, 191, 198, 204, 210, 216, 222, 228, 233, 239, 245, 250, 255 };
 
 /*********************************
 *	Pin Defines
@@ -103,9 +107,12 @@ const PROGMEM uint8_t TABLE_EXP[25] = {1, 2, 2, 2, 3, 4, 6, 7, 9, 11, 14, 18, 22
 #define MODE_NOTHING	0	//Dont react to input of the joysticks
 #define MODE_DIGITAL	1	
 #define MODE_ANALOG		2
-#define MODE_ANALOG2	3
+#define MODE_EXP		3
+#define MODE_SQUARE		4
+#define MODE_LN			5
+#define MODE_SQRT		6
 
-#define MODE_MAX_VAL	2	//Whats the index of the Mode with the highest value
+#define MODE_MAX_VAL	6	//Whats the index of the Mode with the highest value
 #define MODE_DEFAULT	MODE_DIGITAL
 
 //Display mode
@@ -141,7 +148,7 @@ void init_all();
 void init_motors();
 void motor_output_digtal(uint8_t motor, uint8_t mode);
 void motor_output_analog(uint8_t motor, int16_t value);
-void motor_output_analog_no_thre(uint8_t motor, int16_t value);
+void motor_output_analog_raw(uint8_t motor, int16_t value);
 uint16_t read_MCU_volt();	//Gets the voltage of the AVR (should be around 5V)
 uint16_t read_input_volt();	//Gets the voltage of the input
 int16_t map_joy_with_table(int16_t val, const uint8_t[25]); //Map the value using the given lookup table
