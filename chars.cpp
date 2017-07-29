@@ -5,7 +5,7 @@
 #include "chars.h"
 
 
-byte copyright_char[8] = {
+uint8_t copyright_char[8] = {
 	0b01110,
 	0b10001,
 	0b10111,

@@ -4,6 +4,7 @@
 #include "config.h"
 #include "chars.h"
 #include <LiquidCrystal.h>
+#include <PinChangeInt.h>
 
 //Global objects
 LiquidCrystal lcd(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
@@ -24,6 +25,7 @@ void setup()
 	init_all();
 	analogReference(DEFAULT);
 	lcd.begin(8, 2);
+
 	
 	//Show Startup banner
 	startup_banner();
@@ -33,6 +35,9 @@ void setup()
 	//mode = MODE_DIGITAL;
 	//mode = MODE_ANALOG;
 	//display_mode = DISPLAY_VOLT;
+
+
+	//PCattachInterrupt(PIN_COUNT, pcint_handler, FALLING);
 
 	button.registerCallbacks(button_pressedCallback, button_releasedCallback, button_pressedDurationCallback);
 	button.setup(SW_L);
@@ -112,6 +117,12 @@ void update_display()
 		case DISPLAY_OUT:
 			display_out();
 			break;
+		case DISPLAY_COUNT:
+			display_count();
+			break;
+		case DISPLAY_TEMP:
+			display_temp();
+			break;
 		}
 
 		lasttime = millis();
@@ -163,6 +174,24 @@ void display_out()
 	lcd.print(output_val[JOYSTICK_RX]);
 	lcd.setCursor(4, 1);
 	lcd.print(output_val[JOYSTICK_RY]);
+}
+
+void display_temp()
+{
+	lcd.print("Temp.");
+	lcd.setCursor(0, 1);
+	lcd.print(GetTemp());
+}
+
+void display_count()
+{
+	static long lasttime = millis();
+	lcd.print(counter_val() / 2 * 60);
+	if (millis() - lasttime > 2000)
+	{
+		counter_reset();
+		lasttime = millis();
+	}
 }
 
 /*******************************************
@@ -255,6 +284,12 @@ void menu_display()
 		break;
 	case DISPLAY_OUT:
 		lcd.print(F("Out Vals"));
+		break;
+	case DISPLAY_COUNT:
+		lcd.print(F("Counter"));
+		break;
+	case DISPLAY_TEMP:
+		lcd.print(F("Temp."));
 		break;
 	default:
 		lcd.print(F("UNKNOWN"));
@@ -445,6 +480,7 @@ inline void mode_sqrt()
 	motor_output_analog_raw(MOTOR_RY, output_val[JOYSTICK_RY]);
 }
 
+
 /******************************************************
 * HELPER FUNCTIONS
 ******************************************************/
@@ -505,6 +541,7 @@ void read_eeprom()
 	else
 		display_mode = tmp;
 }
+
 
 /***************************************************
 * BUTTON HANDLERS

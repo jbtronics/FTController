@@ -111,17 +111,18 @@ const PROGMEM uint8_t TABLE_SQRT[26] = { 0, 51, 72, 88, 102, 114, 125, 135, 144,
 #define MODE_SQUARE		4
 #define MODE_LN			5
 #define MODE_SQRT		6
-#define MODE_BLINK		7
 
-#define MODE_MAX_VAL	7	//Whats the index of the Mode with the highest value
+#define MODE_MAX_VAL	6	//Whats the index of the Mode with the highest value
 #define MODE_DEFAULT	MODE_DIGITAL
 
 //Display mode
 #define DISPLAY_INPUT	0	//Shows the input values of the joysticks
 #define DISPLAY_VOLT	1	//Shows the input and MCU voltage
 #define DISPLAY_OUT		2	//Shows the output values
+#define DISPLAY_COUNT	3
+#define DISPLAY_TEMP	4	//Shows temperature
 
-#define DISPLAY_MAX_VAL	2
+#define DISPLAY_MAX_VAL	4
 #define DISPLAY_DEFAULT	DISPLAY_VOLT
 
 //Menu states
@@ -152,6 +153,7 @@ const PROGMEM uint8_t TABLE_SQRT[26] = { 0, 51, 72, 88, 102, 114, 125, 135, 144,
 **************************/
 void init_all();
 void init_motors();
+void init_counter();
 void motor_output_digtal(uint8_t motor, uint8_t mode);
 void motor_output_analog(uint8_t motor, int16_t value);
 void motor_output_analog_raw(uint8_t motor, int16_t value);
@@ -159,6 +161,10 @@ uint16_t read_MCU_volt();	//Gets the voltage of the AVR (should be around 5V)
 uint16_t read_input_volt();	//Gets the voltage of the input
 int16_t map_joy_with_table(int16_t val, const uint8_t[25]); //Map the value using the given lookup table
 void stop_motors();	//Halt all motors
+void pcint_handler();
+unsigned long counter_val();
+void counter_reset();
+double GetTemp(void);
 
 
 #endif
