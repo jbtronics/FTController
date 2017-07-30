@@ -33,7 +33,8 @@ void setup()
 	analogReference(DEFAULT);
 	lcd.begin(8, 2);
 
-	
+	config.emergency_halt = 0; //Disable emergency halt by default
+
 	//Show Startup banner
 	startup_banner();
 
@@ -352,6 +353,8 @@ void eeprom_save()
 	EEPROM.update(EEPROM_MODE, mode);
 	//Save display mode
 	EEPROM.update(EEPROM_DISPLAY, display_mode);
+	//Save emergency halt option
+	EEPROM.update(EEPROM_HALT, config.emergency_halt);
 }
 
 void read_eeprom()
@@ -368,6 +371,13 @@ void read_eeprom()
 		display_mode = DISPLAY_DEFAULT;
 	else
 		display_mode = tmp;
+
+	tmp = EEPROM.read(EEPROM_HALT);
+	if (tmp > 1)
+		config.emergency_halt = 0;
+	else
+		config.emergency_halt = tmp;
+
 }
 
 inline void failsafe_check()
