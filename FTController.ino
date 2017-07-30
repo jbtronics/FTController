@@ -394,21 +394,22 @@ inline void failsafe_check()
 	{
 		stop_motors();
 
-		lcd.clear();
+		uint8_t tmp = 0;
 		
+		lcd.home();
+
 		switch (failsafe)
 		{
-			case FAILSAFE_HALT:
-				lcd.print(F("Em.Halt"));
-				break;
-			default:
-				lcd.print(F("FAILSAFE"));
-				break;
+		case FAILSAFE_HALT:
+			lcd.print(F("Em.Halt "));
+			break;
+		default:
+			lcd.print(F("FAILSAFE"));
+			break;
 		}
 
 		lcd.setCursor(0, 1);
 		lcd.print(F("PressBTN"));
-
 		
 	}
 }
