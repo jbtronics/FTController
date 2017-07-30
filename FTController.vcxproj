@@ -87,11 +87,13 @@
     <ClInclude Include="chars.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="helpers.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="__vm\.FTController.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chars.cpp" />
     <ClCompile Include="helpers.cpp" />
+    <ClCompile Include="menu.cpp" />
   </ItemGroup>
   <PropertyGroup>
     <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>

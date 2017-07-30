@@ -125,13 +125,23 @@ const PROGMEM uint8_t TABLE_SQRT[26] = { 0, 51, 72, 88, 102, 114, 125, 135, 144,
 #define DISPLAY_MAX_VAL	4
 #define DISPLAY_DEFAULT	DISPLAY_VOLT
 
+//Config Menu states
+#define CONFIG_SPLASH	1
+#define CONFIG_HALT		2
+#define CONFIG_VERSION1	3
+#define CONFIG_CREDIT	4
+
+#define CONFIG_MAX_VAL	4
+#define CONFIG_DEFAULT	CONFIG_SPLASH
+
 //Menu states
 #define MENU_HIDDEN		0
 #define MENU_SHOW		1
 #define MENU_MODES		1
 #define MENU_DISPLAY	2
+#define MENU_CONFIG		3
 
-#define MENU_MAX_VAL	2
+#define MENU_MAX_VAL	3
 #define MENU_DEFAULT	MENU_MODES
 
 #define THRESHOLD_TIME	50
@@ -141,11 +151,20 @@ const PROGMEM uint8_t TABLE_SQRT[26] = { 0, 51, 72, 88, 102, 114, 125, 135, 144,
 ************************/
 #define EEPROM_MODE		0x00
 #define EEPROM_DISPLAY	0x01
+#define EEPROM_HALT		0x02
+
+/***********************
+* FAILSAFE STATES
+***********************/
+#define FAILSAFE_OFF		0
+#define FAILSAFE_HALT		1
+#define FAILSAFE_CURRENT	2
 
 /*************************
 * Makros
 *************************** */
 #define motor_output_analog_table(motor, value, table) motor_output_analog_no_thre(motor, map_joy_with_table(value, table));
+#define TOGGLE_SETTING(x) x==0 ? x=1 : x=0
 
 
 /*************************
@@ -165,6 +184,13 @@ void pcint_handler();
 unsigned long counter_val();
 void counter_reset();
 double GetTemp(void);
+
+/************************
+* Structs
+************************/
+struct config_struct {
+	uint8_t emergency_halt  : 1;
+};
 
 
 #endif

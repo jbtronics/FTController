@@ -5,6 +5,7 @@
 #include "chars.h"
 #include <LiquidCrystal.h>
 #include <PinChangeInt.h>
+#include "menu.h"
 
 //Global objects
 LiquidCrystal lcd(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
@@ -12,9 +13,15 @@ static InputDebounce button;
 
 uint8_t menu = MENU_HIDDEN;
 
-uint8_t mode;
-uint8_t display_mode;
+uint8_t mode = MODE_DEFAULT;
+uint8_t display_mode = DISPLAY_DEFAULT;
+uint8_t config_mode = CONFIG_DEFAULT;
+uint8_t emergency_halt;
 uint8_t freeze = 0;
+
+uint8_t failsafe = FAILSAFE_OFF;
+
+config_struct config;
 
 int16_t joysticks[4];
 int16_t output_val[4];
@@ -36,7 +43,6 @@ void setup()
 	//mode = MODE_ANALOG;
 	//display_mode = DISPLAY_VOLT;
 
-
 	//PCattachInterrupt(PIN_COUNT, pcint_handler, FALLING);
 
 	button.registerCallbacks(button_pressedCallback, button_releasedCallback, button_pressedDurationCallback);
@@ -47,37 +53,43 @@ void loop()
 {
 	//update_volt();
 
+	//First check for failsafe
+	failsafe_check();
+
 	//Always read joystick values
 	read_joysticks();
 	
-	if (menu == MENU_HIDDEN) //Only execute Modes if Menu is hidden
+	if (failsafe == FAILSAFE_OFF)
 	{
-		switch (mode)
+		if (menu == MENU_HIDDEN) //Only execute Modes if Menu is hidden
 		{
-		case MODE_DIGITAL:
-			mode_digital();
-			break;
-		case MODE_ANALOG:
-			mode_analog();
-			break;
-		case MODE_EXP:
-			mode_exp();
-			break;
-		case MODE_SQUARE:
-			mode_square();
-			break;
-		case MODE_LN:
-			mode_log();
-			break;
-		case MODE_SQRT:
-			mode_sqrt();
-			break;
-		default:
-			break;
+			switch (mode)
+			{
+			case MODE_DIGITAL:
+				mode_digital();
+				break;
+			case MODE_ANALOG:
+				mode_analog();
+				break;
+			case MODE_EXP:
+				mode_exp();
+				break;
+			case MODE_SQUARE:
+				mode_square();
+				break;
+			case MODE_LN:
+				mode_log();
+				break;
+			case MODE_SQRT:
+				mode_sqrt();
+				break;
+			default:
+				break;
+			}
 		}
+
+		update_display();
 	}
-	
-	update_display();
 	button.process(millis());
 
 	//delay(100);
@@ -194,191 +206,7 @@ void display_count()
 	}
 }
 
-/*******************************************
-* MENU
-*******************************************/
 
-inline void show_menu()
-{
-	switch (menu)
-	{
-	case MENU_MODES:
-		menu_modes();
-		break;
-	case MENU_DISPLAY:
-		menu_display();
-		break;
-	default:
-		lcd.print(F("ERROR"));
-	}
-
-	//Check if we should change the sub menu
-	char action = menu_action_ly();
-	if (action != 0)
-	{
-		if (menu + action > MENU_MAX_VAL) //When at end of the modes jump to the first one
-			menu = 1;
-		else if (menu + action < 1)
-			menu = MENU_MAX_VAL;
-		else
-			menu += action;
-	}
-}
-
-void menu_modes()
-{
-	lcd.print(F("MODE:"));
-	lcd.setCursor(0, 1);
-	switch (mode)
-	{
-	case MODE_NOTHING:
-		lcd.print(F("None"));
-		break;
-	case MODE_DIGITAL:
-		lcd.print(F("Digital"));
-		break;
-	case MODE_ANALOG:
-		lcd.print(F("Linear"));
-		break;
-	case MODE_EXP:
-		lcd.print(F("Exp"));
-		break;
-	case MODE_SQUARE:
-		lcd.print(F("Square"));
-		break;
-	case MODE_LN:
-		lcd.print(F("Log"));
-		break;
-	case MODE_SQRT:
-		lcd.print(F("Sqrt"));
-		break;
-	default:
-		lcd.print(F("UNKNOWN"));
-		break;
-	}
-
-	//Change the mode
-	char mode_action = menu_action_lx();
-	if (mode_action != 0)
-	{
-		if (mode + mode_action > MODE_MAX_VAL) //When at end of the modes jump to the first one
-			mode = 0;
-		else if (mode_action + mode < 0)
-			mode = MODE_MAX_VAL;
-		else
-			mode += mode_action;
-	}
-}
-
-void menu_display()
-{
-	lcd.print(F("DISPLAY:"));
-	lcd.setCursor(0, 1);
-	switch (display_mode)
-	{
-	case DISPLAY_VOLT:
-		lcd.print(F("Voltages"));
-		break;
-	case DISPLAY_INPUT:
-		lcd.print(F("In Vals"));
-		break;
-	case DISPLAY_OUT:
-		lcd.print(F("Out Vals"));
-		break;
-	case DISPLAY_COUNT:
-		lcd.print(F("Counter"));
-		break;
-	case DISPLAY_TEMP:
-		lcd.print(F("Temp."));
-		break;
-	default:
-		lcd.print(F("UNKNOWN"));
-	}
-
-	//Change the mode
-	char mode_action = menu_action_lx();
-	if (mode_action != 0)
-	{
-		if (display_mode + mode_action > DISPLAY_MAX_VAL) //When at end of the modes jump to the first one
-			display_mode = 0;
-		else if (mode_action + display_mode < 0)
-			display_mode = DISPLAY_MAX_VAL;
-		else
-			display_mode += mode_action;
-	}
-}
-
-char menu_action_lx()
-{
-	static char lx_laststate = 0;
-	static char lx_action = 0;
-	static long lasttime = millis();
-
-	if (joysticks[JOYSTICK_LX] > THRESHOLD_P)
-	{
-		if (millis() - lasttime > THRESHOLD_TIME && lx_laststate != -1)
-		{
-			lx_action = -1;
-		}
-		lx_laststate = -1;
-	}
-	else if (joysticks[JOYSTICK_LX] < THRESHOLD_N)
-	{
-		if (millis() - lasttime > THRESHOLD_TIME && lx_laststate != 1)
-		{
-			lx_action = 1;
-		}
-		lx_laststate = 1;
-	}
-	else
-	{
-		lx_laststate = 0;
-	}
-
-	if (lx_action != 0)
-	{
-		uint8_t tmp = lx_action;
-		lx_action = 0;
-		return tmp;
-	}
-	return 0;
-}
-
-char menu_action_ly()
-{
-	static char lx_laststate = 0;
-	static char lx_action = 0;
-	static long lasttime = millis();
-
-	if (joysticks[JOYSTICK_LY] > THRESHOLD_P)
-	{
-		if (millis() - lasttime > THRESHOLD_TIME && lx_laststate != -1)
-		{
-			lx_action = -1;
-		}
-		lx_laststate = -1;
-	}
-	else if (joysticks[JOYSTICK_LY] < THRESHOLD_N)
-	{
-		if (millis() - lasttime > THRESHOLD_TIME && lx_laststate != 1)
-		{
-			lx_action = 1;
-		}
-		lx_laststate = 1;
-	}
-	else
-	{
-		lx_laststate = 0;
-	}
-
-	if (lx_action != 0)
-	{
-		uint8_t tmp = lx_action;
-		lx_action = 0;
-		return tmp;
-	}
-	return 0;
-}
 
 /********************************************
 * MODE HANDLING
@@ -542,6 +370,39 @@ void read_eeprom()
 		display_mode = tmp;
 }
 
+inline void failsafe_check()
+{
+	if (config.emergency_halt )//&& display_mode != DISPLAY_COUNT)
+	{
+		if (bitRead(PIND, 7) == 0)	//When Count input low, then activate the failsafe mode
+		{
+			failsafe = FAILSAFE_HALT;
+		}
+	}
+
+	if (failsafe != FAILSAFE_OFF)
+	{
+		stop_motors();
+
+		lcd.clear();
+		
+		switch (failsafe)
+		{
+			case FAILSAFE_HALT:
+				lcd.print(F("Em.Halt"));
+				break;
+			default:
+				lcd.print(F("FAILSAFE"));
+				break;
+		}
+
+		lcd.setCursor(0, 1);
+		lcd.print(F("PressBTN"));
+
+		
+	}
+}
+
 
 /***************************************************
 * BUTTON HANDLERS
@@ -550,26 +411,41 @@ void read_eeprom()
 void button_pressedCallback()
 {
 	static long lasttime = 0;
-	if (menu != MENU_HIDDEN)	//Toggle menu visibility
+	
+	if (failsafe == FAILSAFE_OFF)
 	{
-		menu = MENU_HIDDEN;
-		eeprom_save();
+		if (menu != MENU_HIDDEN)	//Toggle menu visibility
+		{
+			menu = MENU_HIDDEN;
+			eeprom_save();
+		}
+		else
+		{
+			menu = MENU_SHOW;
+			stop_motors();
+		}
+
+		if (millis() - lasttime < DOUBLECLICK_TIME) //If button was double clicked, activate FREEZE mode
+		{
+			if (freeze == 0)
+				freeze = 1;
+			else
+				freeze = 0;
+			menu = MENU_HIDDEN;		//Hide menu
+		}
 	}
 	else
 	{
-		menu = MENU_SHOW;
-		stop_motors();
+		//Only switch of failsafe mode, when joysticks are not giving an output val, or the freeze mode is activated (because then the joystick vals donte become updated)
+		if (joysticks[JOYSTICK_LX] < THRESHOLD_P && joysticks[JOYSTICK_LX] > THRESHOLD_N
+			&& joysticks[JOYSTICK_LY] < THRESHOLD_P && joysticks[JOYSTICK_LY] > THRESHOLD_N
+			&& joysticks[JOYSTICK_RX] < THRESHOLD_P && joysticks[JOYSTICK_RX] > THRESHOLD_N
+			&& joysticks[JOYSTICK_RY] < THRESHOLD_P && joysticks[JOYSTICK_RY] > THRESHOLD_N 
+			|| freeze == 1)
+		{
+			failsafe = FAILSAFE_OFF;
+		}
 	}
-
-	if (millis() - lasttime < DOUBLECLICK_TIME) //If button was double clicked, activate FREEZE mode
-	{
-		if (freeze == 0)
-			freeze = 1;
-		else
-			freeze = 0;
-		menu = MENU_HIDDEN;		//Hide menu
-	}
-
 
 	lasttime = millis();
 }
