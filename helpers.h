@@ -128,10 +128,11 @@ const PROGMEM uint8_t TABLE_SQRT[26] = { 0, 51, 72, 88, 102, 114, 125, 135, 144,
 //Config Menu states
 #define CONFIG_SPLASH	1
 #define CONFIG_HALT		2
-#define CONFIG_VERSION1	3
-#define CONFIG_CREDIT	4
+#define CONFIG_CUNIT	3
+#define CONFIG_VERSION1	4
+#define CONFIG_CREDIT	5
 
-#define CONFIG_MAX_VAL	4
+#define CONFIG_MAX_VAL	5
 #define CONFIG_DEFAULT	CONFIG_SPLASH
 
 //Menu states
@@ -159,6 +160,13 @@ const PROGMEM uint8_t TABLE_SQRT[26] = { 0, 51, 72, 88, 102, 114, 125, 135, 144,
 #define FAILSAFE_OFF		0
 #define FAILSAFE_HALT		1
 #define FAILSAFE_CURRENT	2
+
+/************************
+* Counter units
+*************************/
+#define CUNIT_HZ			0
+#define CUNIT_RPM			1
+
 
 /*************************
 * Makros
@@ -190,6 +198,7 @@ double GetTemp(void);
 ************************/
 struct config_struct {
 	uint8_t emergency_halt  : 1;
+	uint8_t counter_unit : 1;
 };
 
 

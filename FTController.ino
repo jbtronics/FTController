@@ -44,7 +44,7 @@ void setup()
 	//mode = MODE_ANALOG;
 	//display_mode = DISPLAY_VOLT;
 
-	//PCattachInterrupt(PIN_COUNT, pcint_handler, FALLING);
+	PCattachInterrupt(PIN_COUNT, pcint_handler, FALLING);
 
 	button.registerCallbacks(button_pressedCallback, button_releasedCallback, button_pressedDurationCallback);
 	button.setup(SW_L);
@@ -199,12 +199,27 @@ void display_temp()
 void display_count()
 {
 	static long lasttime = millis();
-	lcd.print(counter_val() / 2 * 60);
-	if (millis() - lasttime > 2000)
+	static float val = 0;
+	if (millis() - lasttime > 1000)
 	{
+		val = (counter_val() * 1000.0) / (millis() - lasttime); // * 60;
+		
+		if (config.counter_unit == CUNIT_RPM)
+			val = val * 60;
+
 		counter_reset();
 		lasttime = millis();
 	}
+	if (config.counter_unit == CUNIT_HZ)
+		lcd.print("Hz:");
+	else if (config.counter_unit == CUNIT_RPM)
+		lcd.print("RPM:");
+	lcd.setCursor(0,1);
+
+	if (config.counter_unit == CUNIT_HZ)
+		lcd.print(val);
+	else if (config.counter_unit == CUNIT_RPM)
+		lcd.print(val, 0);	//Cut digits after the point, we dont have that precision
 }
 
 
@@ -382,7 +397,7 @@ void read_eeprom()
 
 inline void failsafe_check()
 {
-	if (config.emergency_halt )//&& display_mode != DISPLAY_COUNT)
+	if (config.emergency_halt  && display_mode != DISPLAY_COUNT)
 	{
 		if (bitRead(PIND, 7) == 0)	//When Count input low, then activate the failsafe mode
 		{

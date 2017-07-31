@@ -76,6 +76,19 @@ void menu_config()
 		if (menu_action_rx()) //Check if we should change value
 			TOGGLE_SETTING(config.emergency_halt);
 		break;
+	case CONFIG_CUNIT:
+		lcd.print(F("C.UNIT:"));
+		lcd.setCursor(0, 1);
+		if (config.counter_unit == CUNIT_HZ)
+			lcd.print("Hz");
+		else if (config.counter_unit == CUNIT_RPM)
+			lcd.print("RPM");
+		else
+			lcd.print("Unknown");
+
+		if (menu_action_rx()) //Check if we should change value
+			TOGGLE_SETTING(config.counter_unit);
+		break;
 	case CONFIG_VERSION1:
 		lcd.print(F("VERSION:"));
 		lcd.setCursor(0, 1);
