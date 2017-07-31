@@ -90,7 +90,7 @@ void menu_config()
 			TOGGLE_SETTING(config.counter_unit);
 		break;
 	case CONFIG_CDEBOUNCE:
-		lcd.print(F("C.DEBNC:"));
+		lcd.print(F("I.DEBNC:"));
 		lcd.setCursor(0, 1);
 		if (config.counter_debounce == 0)
 			lcd.print("OFF");
@@ -101,14 +101,14 @@ void menu_config()
 			TOGGLE_SETTING(config.counter_debounce);
 		break;
 	case CONFIG_CMULTI:
-		lcd.print(F("C.MULTI:"));
+		lcd.print(F("I.MULTI:"));
 		lcd.setCursor(0, 1);
 		lcd.print(config.counter_multi + 1);
 		config.counter_multi += menu_action_rx();
 		config.counter_multi += 10 * menu_action_ry();
 		break;
 	case CONFIG_CDIVIDE:
-		lcd.print(F("C.DIVIDE:"));
+		lcd.print(F("I.DIVIDE:"));
 		lcd.setCursor(0, 1);
 		lcd.print(config.counter_divide + 1);
 		config.counter_divide += menu_action_rx();
@@ -201,6 +201,9 @@ void menu_display()
 		break;
 	case DISPLAY_OUT:
 		lcd.print(F("Out Vals"));
+		break;
+	case DISPLAY_RPM:
+		lcd.print(F("RPM"));
 		break;
 	case DISPLAY_COUNT:
 		lcd.print(F("Counter"));

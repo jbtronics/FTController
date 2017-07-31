@@ -119,10 +119,11 @@ const PROGMEM uint8_t TABLE_SQRT[26] = { 0, 51, 72, 88, 102, 114, 125, 135, 144,
 #define DISPLAY_INPUT	0	//Shows the input values of the joysticks
 #define DISPLAY_VOLT	1	//Shows the input and MCU voltage
 #define DISPLAY_OUT		2	//Shows the output values
-#define DISPLAY_COUNT	3
-#define DISPLAY_TEMP	4	//Shows temperature
+#define DISPLAY_RPM		3	//Shows RPM rate
+#define DISPLAY_COUNT	4
+#define DISPLAY_TEMP	5	//Shows temperature
 
-#define DISPLAY_MAX_VAL	4
+#define DISPLAY_MAX_VAL	5
 #define DISPLAY_DEFAULT	DISPLAY_VOLT
 
 //Config Menu states

@@ -130,8 +130,11 @@ void update_display()
 		case DISPLAY_OUT:
 			display_out();
 			break;
+		case DISPLAY_RPM:
+			display_rpm();
+			break;
 		case DISPLAY_COUNT:
-			display_count();
+			display_counter();
 			break;
 		case DISPLAY_TEMP:
 			display_temp();
@@ -196,7 +199,7 @@ void display_temp()
 	lcd.print(GetTemp());
 }
 
-void display_count()
+void display_rpm()
 {
 	static long lasttime = millis();
 	static float val = 0;
@@ -239,6 +242,12 @@ void display_count()
 		lcd.print(val, 0);	//Cut digits after the point, we dont have that precision
 }
 
+void display_counter()
+{
+	lcd.print(F("Counter:"));
+	lcd.setCursor(0, 1);
+	lcd.print(counter_val());
+}
 
 
 /********************************************
@@ -501,11 +510,20 @@ void button_pressedCallback()
 
 		if (millis() - lasttime < DOUBLECLICK_TIME) //If button was double clicked, activate FREEZE mode
 		{
-			if (freeze == 0)
-				freeze = 1;
+			if (display_mode == DISPLAY_COUNT)
+			{
+				counter_reset();
+				menu = MENU_HIDDEN;
+			}
 			else
-				freeze = 0;
-			menu = MENU_HIDDEN;		//Hide menu
+			{
+				if (freeze == 0)
+					freeze = 1;
+				else
+					freeze = 0;
+				menu = MENU_HIDDEN;		//Hide menu
+			}
+			
 		}
 	}
 	else
