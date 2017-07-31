@@ -100,6 +100,20 @@ void menu_config()
 		if (menu_action_rx() || menu_action_ry()) //Check if we should change value
 			TOGGLE_SETTING(config.counter_debounce);
 		break;
+	case CONFIG_CMULTI:
+		lcd.print(F("C.MULTI:"));
+		lcd.setCursor(0, 1);
+		lcd.print(config.counter_multi + 1);
+		config.counter_multi += menu_action_rx();
+		config.counter_multi += 10 * menu_action_ry();
+		break;
+	case CONFIG_CDIVIDE:
+		lcd.print(F("C.DIVIDE:"));
+		lcd.setCursor(0, 1);
+		lcd.print(config.counter_divide + 1);
+		config.counter_divide += menu_action_rx();
+		config.counter_divide += 10 * menu_action_ry();
+		break;
 	case CONFIG_VERSION1:
 		lcd.print(F("VERSION:"));
 		lcd.setCursor(0, 1);

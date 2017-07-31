@@ -207,6 +207,16 @@ void display_count()
 		if (config.counter_unit == CUNIT_RPM)
 			val = val * 60;
 
+		if (config.counter_divide)
+		{
+			val = val / (config.counter_divide + 1);
+		}
+
+		if (config.counter_multi)
+		{
+			val = val * (config.counter_multi + 1);
+		}
+
 		counter_reset();
 		lasttime = millis();
 	}
@@ -217,6 +227,9 @@ void display_count()
 
 	if (config.counter_debounce == 1)
 		lcd.print(" D");	//Print hint that debounce is activated
+
+	if (config.counter_divide || config.counter_multi)
+		lcd.print(" x");
 
 	lcd.setCursor(0,1);
 
@@ -378,6 +391,10 @@ void eeprom_save()
 	EEPROM.update(EEPROM_CUNIT, config.counter_unit);
 	//Save Counter Debountce setting
 	EEPROM.update(EEPROM_CDEB, config.counter_debounce);
+	//Save Counter Multiplier
+	EEPROM.update(EEPROM_CMULTI, config.counter_multi);
+	//Save Counter Divider
+	EEPROM.update(EEPROM_CDIVIDE, config.counter_divide);
 }
 
 void read_eeprom()
@@ -413,6 +430,17 @@ void read_eeprom()
 	else
 		config.counter_debounce = tmp;
 	
+	tmp = EEPROM.read(EEPROM_CMULTI);
+	if (tmp == 0xFF)
+		config.counter_multi = 0;
+	else
+		config.counter_multi = tmp;
+
+	tmp = EEPROM.read(EEPROM_CDIVIDE);
+	if (tmp == 0xFF)
+		config.counter_divide = 0;
+	else
+		config.counter_divide = tmp;
 }
 
 inline void failsafe_check()

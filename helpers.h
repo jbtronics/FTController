@@ -130,8 +130,8 @@ const PROGMEM uint8_t TABLE_SQRT[26] = { 0, 51, 72, 88, 102, 114, 125, 135, 144,
 #define CONFIG_HALT		2
 #define CONFIG_CUNIT	3
 #define CONFIG_CDEBOUNCE 4
-#define CONFIG_MULTI	5
-#define CONFIG_DIVIDE	6
+#define CONFIG_CMULTI	5
+#define CONFIG_CDIVIDE	6
 #define CONFIG_VERSION1	7
 #define CONFIG_CREDIT	8
 
@@ -158,6 +158,8 @@ const PROGMEM uint8_t TABLE_SQRT[26] = { 0, 51, 72, 88, 102, 114, 125, 135, 144,
 #define EEPROM_HALT		0x02
 #define EEPROM_CUNIT	0x03
 #define EEPROM_CDEB		0x04
+#define EEPROM_CMULTI	0x05
+#define EEPROM_CDIVIDE	0x06
 
 /***********************
 * FAILSAFE STATES
@@ -205,6 +207,8 @@ struct config_struct {
 	uint8_t emergency_halt  : 1;
 	uint8_t counter_unit : 1;
 	uint8_t counter_debounce : 1;
+	uint8_t counter_multi;
+	uint8_t counter_divide;
 };
 
 
