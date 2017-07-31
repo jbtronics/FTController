@@ -36,6 +36,8 @@
 
 #define DOUBLECLICK_TIME	300
 
+#define COUNTER_DEBOUNCE	15
+
 #define DISPLAY_FIX				//Define this if you want to use the VOLT_MEASURE PIN for DISPLAY_E
 
 #endif

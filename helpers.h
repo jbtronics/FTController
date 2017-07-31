@@ -129,10 +129,11 @@ const PROGMEM uint8_t TABLE_SQRT[26] = { 0, 51, 72, 88, 102, 114, 125, 135, 144,
 #define CONFIG_SPLASH	1
 #define CONFIG_HALT		2
 #define CONFIG_CUNIT	3
-#define CONFIG_VERSION1	4
-#define CONFIG_CREDIT	5
+#define CONFIG_CDEBOUNCE 4
+#define CONFIG_VERSION1	5
+#define CONFIG_CREDIT	6
 
-#define CONFIG_MAX_VAL	5
+#define CONFIG_MAX_VAL	6
 #define CONFIG_DEFAULT	CONFIG_SPLASH
 
 //Menu states
@@ -153,6 +154,8 @@ const PROGMEM uint8_t TABLE_SQRT[26] = { 0, 51, 72, 88, 102, 114, 125, 135, 144,
 #define EEPROM_MODE		0x00
 #define EEPROM_DISPLAY	0x01
 #define EEPROM_HALT		0x02
+#define EEPROM_CUNIT	0x03
+#define EEPROM_CDEB		0x04
 
 /***********************
 * FAILSAFE STATES
@@ -199,6 +202,7 @@ double GetTemp(void);
 struct config_struct {
 	uint8_t emergency_halt  : 1;
 	uint8_t counter_unit : 1;
+	uint8_t counter_debounce : 1;
 };
 
 

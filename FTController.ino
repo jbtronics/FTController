@@ -214,6 +214,10 @@ void display_count()
 		lcd.print("Hz:");
 	else if (config.counter_unit == CUNIT_RPM)
 		lcd.print("RPM:");
+
+	if (config.counter_debounce == 1)
+		lcd.print(" D");	//Print hint that debounce is activated
+
 	lcd.setCursor(0,1);
 
 	if (config.counter_unit == CUNIT_HZ)
@@ -370,6 +374,10 @@ void eeprom_save()
 	EEPROM.update(EEPROM_DISPLAY, display_mode);
 	//Save emergency halt option
 	EEPROM.update(EEPROM_HALT, config.emergency_halt);
+	//Save Counter unit setting
+	EEPROM.update(EEPROM_CUNIT, config.counter_unit);
+	//Save Counter Debountce setting
+	EEPROM.update(EEPROM_CDEB, config.counter_debounce);
 }
 
 void read_eeprom()
@@ -393,6 +401,18 @@ void read_eeprom()
 	else
 		config.emergency_halt = tmp;
 
+	tmp = EEPROM.read(EEPROM_CUNIT);
+	if (tmp > 1)
+		config.counter_unit = 0;
+	else
+		config.counter_unit = tmp;
+
+	tmp = EEPROM.read(EEPROM_CDEB);
+	if (tmp > 1)
+		config.counter_debounce = 0;
+	else
+		config.counter_debounce = tmp;
+	
 }
 
 inline void failsafe_check()

@@ -6,6 +6,8 @@
 
 unsigned long count = 0;
 
+extern config_struct config;
+
 void init_all()
 {
 	init_motors();
@@ -18,9 +20,22 @@ void init_counter()
 	pinMode(PIN_COUNT, INPUT_PULLUP);
 }
 
-void pcint_handler() 
+void pcint_handler()
 {
-	count++;
+	if (config.counter_debounce == 1) //If debounce is enabled we need to check if the func is 
+	{
+		static long lasttime = millis();
+		if (millis() - lasttime > COUNTER_DEBOUNCE)
+		{
+			count++;
+			lasttime = millis();
+		}
+	}
+	else
+	{
+		count++;
+	}
+
 }
 
 unsigned long counter_val()

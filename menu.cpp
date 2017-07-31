@@ -89,6 +89,17 @@ void menu_config()
 		if (menu_action_rx()) //Check if we should change value
 			TOGGLE_SETTING(config.counter_unit);
 		break;
+	case CONFIG_CDEBOUNCE:
+		lcd.print(F("C.DEBNC:"));
+		lcd.setCursor(0, 1);
+		if (config.counter_debounce == 0)
+			lcd.print("OFF");
+		else
+			lcd.print("ON");
+
+		if (menu_action_rx()) //Check if we should change value
+			TOGGLE_SETTING(config.counter_debounce);
+		break;
 	case CONFIG_VERSION1:
 		lcd.print(F("VERSION:"));
 		lcd.setCursor(0, 1);
