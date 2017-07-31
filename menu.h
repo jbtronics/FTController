@@ -18,6 +18,7 @@ void menu_display();
 static char menu_action_lx();
 static char menu_action_ly();
 static char menu_action_rx();
+static char menu_action_ry();
 
 
 #endif

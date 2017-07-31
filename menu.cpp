@@ -73,7 +73,7 @@ void menu_config()
 		else
 			lcd.print("ON");
 
-		if (menu_action_rx()) //Check if we should change value
+		if (menu_action_rx() || menu_action_ry()) //Check if we should change value
 			TOGGLE_SETTING(config.emergency_halt);
 		break;
 	case CONFIG_CUNIT:
@@ -86,7 +86,7 @@ void menu_config()
 		else
 			lcd.print("Unknown");
 
-		if (menu_action_rx()) //Check if we should change value
+		if (menu_action_rx() || menu_action_ry()) //Check if we should change value
 			TOGGLE_SETTING(config.counter_unit);
 		break;
 	case CONFIG_CDEBOUNCE:
@@ -97,7 +97,7 @@ void menu_config()
 		else
 			lcd.print("ON");
 
-		if (menu_action_rx()) //Check if we should change value
+		if (menu_action_rx() || menu_action_ry()) //Check if we should change value
 			TOGGLE_SETTING(config.counter_debounce);
 		break;
 	case CONFIG_VERSION1:
@@ -298,6 +298,42 @@ static char menu_action_rx()
 		lx_laststate = -1;
 	}
 	else if (joysticks[JOYSTICK_RX] < THRESHOLD_N)
+	{
+		if (millis() - lasttime > THRESHOLD_TIME && lx_laststate != 1)
+		{
+			lx_action = 1;
+		}
+		lx_laststate = 1;
+	}
+	else
+	{
+		lx_laststate = 0;
+	}
+
+	if (lx_action != 0)
+	{
+		uint8_t tmp = lx_action;
+		lx_action = 0;
+		return tmp;
+	}
+	return 0;
+}
+
+static char menu_action_ry()
+{
+	static char lx_laststate = 0;
+	static char lx_action = 0;
+	static long lasttime = millis();
+
+	if (joysticks[JOYSTICK_RY] > THRESHOLD_P)
+	{
+		if (millis() - lasttime > THRESHOLD_TIME && lx_laststate != -1)
+		{
+			lx_action = -1;
+		}
+		lx_laststate = -1;
+	}
+	else if (joysticks[JOYSTICK_RY] < THRESHOLD_N)
 	{
 		if (millis() - lasttime > THRESHOLD_TIME && lx_laststate != 1)
 		{
