@@ -257,6 +257,43 @@ uint16_t read_input_volt()
 	return volt;
 }
 
+uint16_t read_output_current()
+{
+	static uint16_t old = 0;
+	static uint8_t count = 1;
+	static uint32_t avg = 0;
+
+	// Use 1.1V Reference
+	analogReference(INTERNAL);
+	analogRead(MEAS_CURR);	//Really change it
+	delay(8); //Wait until ref settles
+	unsigned long volt = analogRead(MEAS_CURR);
+
+	//Calculate voltage on ADC input
+	volt = (volt * C_REF_1V1) / 1023L;
+	//volt = volt + CURRENT_V_OFFSET;
+
+	//Calculate voltage before divider
+	volt = 1000L * volt / SHUNT_R;
+	//Add offset
+	//volt = volt + CURRENT_OFFSET;
+
+	analogReference(DEFAULT);
+
+	avg = avg + volt;
+	count++;
+
+	//Calculate the new avg value
+	if (count >= CURRENT_AVG_N)
+	{
+		old = avg / CURRENT_AVG_N;
+		count = 1;
+		avg = 0;
+	}
+
+	return old;
+}
+
 
 int16_t map_joy_with_table(int16_t val, const uint8_t table[25])
 {

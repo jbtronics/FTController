@@ -34,6 +34,12 @@
 #define VOLT_OFFSET		150
 #define REF_1V1			1100
 
+#define C_REF_1V1		1380
+#define SHUNT_R			340L			//Shunt resistance in mOhm
+#define CURRENT_V_OFFSET	0
+
+#define CURRENT_AVG_N	12
+
 #define DOUBLECLICK_TIME	300
 
 #define COUNTER_DEBOUNCE	15

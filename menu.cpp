@@ -101,14 +101,14 @@ void menu_config()
 			TOGGLE_SETTING(config.counter_debounce);
 		break;
 	case CONFIG_CMULTI:
-		lcd.print(F("I.MULTI:"));
+		lcd.print(F("C.MULTI:"));
 		lcd.setCursor(0, 1);
 		lcd.print(config.counter_multi + 1);
 		config.counter_multi += menu_action_rx();
 		config.counter_multi += 10 * menu_action_ry();
 		break;
 	case CONFIG_CDIVIDE:
-		lcd.print(F("I.DIVIDE:"));
+		lcd.print(F("C.DIVIDE:"));
 		lcd.setCursor(0, 1);
 		lcd.print(config.counter_divide + 1);
 		config.counter_divide += menu_action_rx();

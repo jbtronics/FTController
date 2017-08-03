@@ -127,6 +127,9 @@ void update_display()
 		case DISPLAY_VOLT:
 			display_volt();
 			break;
+		case DISPLAY_POWER:
+			display_power();
+			break;
 		case DISPLAY_OUT:
 			display_out();
 			break;
@@ -179,6 +182,29 @@ void display_volt()
 	lcd.print(val / 1000.0, 1);
 	lcd.setCursor(7, 1);
 	lcd.print(F("V"));
+}
+
+void display_power()
+{
+	//Input Voltage
+	lcd.setCursor(0, 0);
+	lcd.print(F("U:"));
+	uint16_t val = read_input_volt();
+	if (val < 10000) //Insert space if only one digit
+		lcd.print(" ");
+	lcd.print(val / 1000.0, 1);
+	lcd.setCursor(7, 0);
+	lcd.print(F("V"));
+
+	//Output Current
+	lcd.setCursor(0, 1);
+	lcd.print(F("I:"));
+	val = read_output_current();
+	//if (val < 10000) //Insert space if only one digit
+		//lcd.print(" ");
+	lcd.print(val / 1000.0 , 2);
+	lcd.setCursor(6, 1);
+	lcd.print(F("mA"));
 }
 
 void display_out()

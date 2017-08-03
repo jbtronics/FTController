@@ -118,13 +118,15 @@ const PROGMEM uint8_t TABLE_SQRT[26] = { 0, 51, 72, 88, 102, 114, 125, 135, 144,
 //Display mode
 #define DISPLAY_INPUT	0	//Shows the input values of the joysticks
 #define DISPLAY_VOLT	1	//Shows the input and MCU voltage
-#define DISPLAY_OUT		2	//Shows the output values
-#define DISPLAY_RPM		3	//Shows RPM rate
-#define DISPLAY_COUNT	4
-#define DISPLAY_TEMP	5	//Shows temperature
+#define DISPLAY_POWER	2
+#define DISPLAY_OUT		3	//Shows the output values
+#define DISPLAY_RPM		4	//Shows RPM rate
+#define DISPLAY_COUNT	5
+#define DISPLAY_TIME	6
+#define DISPLAY_TEMP	7	//Shows temperature
 
-#define DISPLAY_MAX_VAL	5
-#define DISPLAY_DEFAULT	DISPLAY_VOLT
+#define DISPLAY_MAX_VAL	7
+#define DISPLAY_DEFAULT	DISPLAY_POWER
 
 //Config Menu states
 #define CONFIG_SPLASH	1
@@ -194,6 +196,7 @@ void motor_output_analog(uint8_t motor, int16_t value);
 void motor_output_analog_raw(uint8_t motor, int16_t value);
 uint16_t read_MCU_volt();	//Gets the voltage of the AVR (should be around 5V)
 uint16_t read_input_volt();	//Gets the voltage of the input
+uint16_t read_output_current();	//Gets the current of the motors (in mA)
 int16_t map_joy_with_table(int16_t val, const uint8_t[25]); //Map the value using the given lookup table
 void stop_motors();	//Halt all motors
 void pcint_handler();
