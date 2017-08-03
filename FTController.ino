@@ -192,7 +192,7 @@ void display_power()
 	uint16_t val = read_input_volt();
 	if (val < 10000) //Insert space if only one digit
 		lcd.print(" ");
-	lcd.print(val / 1000.0, 1);
+	lcd.print(val / 1000.0, 2);
 	lcd.setCursor(7, 0);
 	lcd.print(F("V"));
 
