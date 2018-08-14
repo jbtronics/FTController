@@ -1,0 +1,8 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP UC121902
+D Samsumg UC121902 LCD with KS0035
+K lcd, display, ks0035
+$ENDCMP
+#
+#End Doc Library

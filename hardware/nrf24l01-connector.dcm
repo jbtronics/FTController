@@ -1,0 +1,8 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP NRF24L01
+D NRF24L01 connector
+K nrf24l01, connector
+$ENDCMP
+#
+#End Doc Library
