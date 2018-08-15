@@ -25,3 +25,5 @@ Für Details siehe `LICENSE.md` in den entsprechenden Verzeichnissen.
 
 ## Benötigte Bauteile
 [Hier](https://hackaday.io/project/20349/components) kann eine Liste benötigter Bauteile gefunden werden. Keine Garantie auf Vollständigkeit, sicherer ist der Schaltplan oder die interaktive Bauteileliste die unter `hardware/bom` gefunden werden kann.
+
+## Galerie
