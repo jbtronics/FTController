@@ -1,40 +1,4 @@
-EESchema Schematic File Version 2
-LIBS:power
-LIBS:device
-LIBS:transistors
-LIBS:conn
-LIBS:linear
-LIBS:regul
-LIBS:74xx
-LIBS:cmos4000
-LIBS:adc-dac
-LIBS:memory
-LIBS:xilinx
-LIBS:microcontrollers
-LIBS:dsp
-LIBS:microchip
-LIBS:analog_switches
-LIBS:motorola
-LIBS:texas
-LIBS:intel
-LIBS:audio
-LIBS:interface
-LIBS:digital-audio
-LIBS:philips
-LIBS:display
-LIBS:cypress
-LIBS:siliconi
-LIBS:opto
-LIBS:atmel
-LIBS:contrib
-LIBS:valves
-LIBS:mechanical
-LIBS:tinkerforge
-LIBS:switches
-LIBS:ir
-LIBS:avr-isp
-LIBS:uc121902
-LIBS:nrf24l01-connector
+EESchema Schematic File Version 4
 LIBS:FTController-cache
 EELAYER 26 0
 EELAYER END
@@ -51,7 +15,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Q_NMOS_GSD Q5
+L device:Q_NMOS_GSD Q5
 U 1 1 588DD434
 P 2500 2150
 F 0 "Q5" H 2705 2196 50  0000 L CNN
@@ -62,7 +26,7 @@ F 3 "" H 2500 2150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Q_PMOS_GSD Q4
+L device:Q_PMOS_GSD Q4
 U 1 1 588DD43B
 P 2500 1650
 F 0 "Q4" H 2705 1696 50  0000 L CNN
@@ -73,7 +37,7 @@ F 3 "" H 2500 1650 50  0001 C CNN
 	1    0    0    1   
 $EndComp
 $Comp
-L CONN_01X02 P6
+L tinkerforge:CONN_01X02 P6
 U 1 1 588DD442
 P 3250 1650
 F 0 "P6" V 3215 1512 50  0000 R CNN
@@ -91,7 +55,7 @@ Wire Wire Line
 	3200 1900 2600 1900
 Connection ~ 2600 1900
 $Comp
-L Q_PMOS_GSD Q8
+L device:Q_PMOS_GSD Q8
 U 1 1 588DD44D
 P 4050 1650
 F 0 "Q8" H 4255 1696 50  0000 L CNN
@@ -102,7 +66,7 @@ F 3 "" H 4050 1650 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Q_NMOS_GSD Q9
+L device:Q_NMOS_GSD Q9
 U 1 1 588DD454
 P 4050 2150
 F 0 "Q9" H 4256 2196 50  0000 L CNN
@@ -150,7 +114,7 @@ Wire Wire Line
 	3250 2400 3250 2500
 Connection ~ 3250 2400
 $Comp
-L R R7
+L device:R R7
 U 1 1 588DD475
 P 1600 2300
 F 0 "R7" H 1669 2346 50  0000 L CNN
@@ -164,7 +128,7 @@ Wire Wire Line
 	2250 1900 2050 1900
 Connection ~ 2250 1900
 $Comp
-L R R13
+L device:R R13
 U 1 1 588DD47F
 P 4900 2300
 F 0 "R13" H 4970 2346 50  0000 L CNN
@@ -176,7 +140,7 @@ F 3 "" H 4900 2300 50  0001 C CNN
 $EndComp
 Connection ~ 4300 1900
 $Comp
-L BC849 Q12
+L FTController-rescue:BC849 Q12
 U 1 1 588DD488
 P 4550 2300
 F 0 "Q12" H 4740 2346 50  0000 L CNN
@@ -187,7 +151,7 @@ F 3 "" H 850 150 50  0001 L CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L GND #PWR042
+L power1:GND #PWR042
 U 1 1 588DD48F
 P 4450 2500
 F 0 "#PWR042" H 4450 2250 50  0001 C CNN
@@ -204,7 +168,7 @@ Wire Wire Line
 Text GLabel 5050 2300 2    60   Input ~ 0
 PWM_RX2
 $Comp
-L R R11
+L device:R R11
 U 1 1 588DD8A8
 P 4450 1500
 F 0 "R11" H 4520 1546 50  0000 L CNN
@@ -215,7 +179,7 @@ F 3 "" H 850 -300 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +9V #PWR043
+L power1:+9V #PWR043
 U 1 1 588DD8EF
 P 4450 1350
 F 0 "#PWR043" H 4450 1200 50  0001 C CNN
@@ -227,7 +191,7 @@ F 3 "" H 4450 1350 50  0001 C CNN
 $EndComp
 Connection ~ 4450 1900
 $Comp
-L BC849 Q2
+L FTController-rescue:BC849 Q2
 U 1 1 588DDFFD
 P 1950 2300
 F 0 "Q2" H 2141 2346 50  0000 L CNN
@@ -238,7 +202,7 @@ F 3 "" H -1750 150 50  0001 L CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR044
+L power1:GND #PWR044
 U 1 1 588DE09E
 P 2050 2500
 F 0 "#PWR044" H 2050 2250 50  0001 C CNN
@@ -253,7 +217,7 @@ Wire Wire Line
 Text GLabel 1450 2300 0    60   Input ~ 0
 PWM_RX1
 $Comp
-L R R9
+L device:R R9
 U 1 1 588DE3EB
 P 2050 1500
 F 0 "R9" H 2120 1546 50  0000 L CNN
@@ -264,7 +228,7 @@ F 3 "" H -1550 -300 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +9V #PWR045
+L power1:+9V #PWR045
 U 1 1 588DE43E
 P 2050 1350
 F 0 "#PWR045" H 2050 1200 50  0001 C CNN
@@ -276,7 +240,7 @@ F 3 "" H 2050 1350 50  0001 C CNN
 $EndComp
 Connection ~ 2050 1900
 $Comp
-L Q_NMOS_GSD Q7
+L device:Q_NMOS_GSD Q7
 U 1 1 588DE79A
 P 2500 4050
 F 0 "Q7" H 2705 4096 50  0000 L CNN
@@ -287,7 +251,7 @@ F 3 "" H 2500 4050 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Q_PMOS_GSD Q6
+L device:Q_PMOS_GSD Q6
 U 1 1 588DE7A0
 P 2500 3550
 F 0 "Q6" H 2705 3596 50  0000 L CNN
@@ -298,7 +262,7 @@ F 3 "" H 2500 3550 50  0001 C CNN
 	1    0    0    1   
 $EndComp
 $Comp
-L CONN_01X02 P7
+L tinkerforge:CONN_01X02 P7
 U 1 1 588DE7A6
 P 3250 3550
 F 0 "P7" V 3350 3550 50  0000 R CNN
@@ -316,7 +280,7 @@ Wire Wire Line
 	3200 3800 2600 3800
 Connection ~ 2600 3800
 $Comp
-L Q_NMOS_GSD Q11
+L device:Q_NMOS_GSD Q11
 U 1 1 588DE7B6
 P 4050 4050
 F 0 "Q11" H 4256 4096 50  0000 L CNN
@@ -364,7 +328,7 @@ Wire Wire Line
 	3250 4300 3250 4400
 Connection ~ 3250 4300
 $Comp
-L R R8
+L device:R R8
 U 1 1 588DE7D6
 P 1600 4200
 F 0 "R8" H 1669 4246 50  0000 L CNN
@@ -378,7 +342,7 @@ Wire Wire Line
 	2250 3800 2050 3800
 Connection ~ 2250 3800
 $Comp
-L R R14
+L device:R R14
 U 1 1 588DE7DE
 P 4900 4200
 F 0 "R14" H 4970 4246 50  0000 L CNN
@@ -390,7 +354,7 @@ F 3 "" H 4900 4200 50  0001 C CNN
 $EndComp
 Connection ~ 4300 3800
 $Comp
-L BC849 Q13
+L FTController-rescue:BC849 Q13
 U 1 1 588DE7E5
 P 4550 4200
 F 0 "Q13" H 4740 4246 50  0000 L CNN
@@ -401,7 +365,7 @@ F 3 "" H 850 2050 50  0001 L CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L GND #PWR046
+L power1:GND #PWR046
 U 1 1 588DE7EB
 P 4450 4400
 F 0 "#PWR046" H 4450 4150 50  0001 C CNN
@@ -418,7 +382,7 @@ Wire Wire Line
 Text GLabel 5050 4200 2    60   Input ~ 0
 PWM_RY2
 $Comp
-L R R12
+L device:R R12
 U 1 1 588DE7F4
 P 4450 3400
 F 0 "R12" H 4520 3446 50  0000 L CNN
@@ -429,7 +393,7 @@ F 3 "" H 850 1600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +9V #PWR047
+L power1:+9V #PWR047
 U 1 1 588DE7FA
 P 4450 3250
 F 0 "#PWR047" H 4450 3100 50  0001 C CNN
@@ -441,7 +405,7 @@ F 3 "" H 4450 3250 50  0001 C CNN
 $EndComp
 Connection ~ 4450 3800
 $Comp
-L BC849 Q3
+L FTController-rescue:BC849 Q3
 U 1 1 588DE801
 P 1950 4200
 F 0 "Q3" H 2141 4246 50  0000 L CNN
@@ -452,7 +416,7 @@ F 3 "" H -1750 2050 50  0001 L CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR048
+L power1:GND #PWR048
 U 1 1 588DE807
 P 2050 4400
 F 0 "#PWR048" H 2050 4150 50  0001 C CNN
@@ -467,7 +431,7 @@ Wire Wire Line
 Text GLabel 1450 4200 0    60   Input ~ 0
 PWM_RY1
 $Comp
-L R R10
+L device:R R10
 U 1 1 588DE80F
 P 2050 3400
 F 0 "R10" H 2120 3446 50  0000 L CNN
@@ -478,7 +442,7 @@ F 3 "" H -1550 1600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +9V #PWR049
+L power1:+9V #PWR049
 U 1 1 588DE815
 P 2050 3250
 F 0 "#PWR049" H 2050 3100 50  0001 C CNN
@@ -490,7 +454,7 @@ F 3 "" H 2050 3250 50  0001 C CNN
 $EndComp
 Connection ~ 2050 3800
 $Comp
-L Q_NMOS_GSD Q17
+L device:Q_NMOS_GSD Q17
 U 1 1 588E1BC1
 P 7750 2150
 F 0 "Q17" H 7955 2196 50  0000 L CNN
@@ -501,7 +465,7 @@ F 3 "" H 7750 2150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Q_PMOS_GSD Q16
+L device:Q_PMOS_GSD Q16
 U 1 1 588E1BC7
 P 7750 1650
 F 0 "Q16" H 7955 1696 50  0000 L CNN
@@ -512,7 +476,7 @@ F 3 "" H 7750 1650 50  0001 C CNN
 	1    0    0    1   
 $EndComp
 $Comp
-L CONN_01X02 P8
+L tinkerforge:CONN_01X02 P8
 U 1 1 588E1BCD
 P 8500 1650
 F 0 "P8" V 8465 1512 50  0000 R CNN
@@ -530,7 +494,7 @@ Wire Wire Line
 	8450 1900 7850 1900
 Connection ~ 7850 1900
 $Comp
-L Q_PMOS_GSD Q20
+L device:Q_PMOS_GSD Q20
 U 1 1 588E1BD7
 P 9300 1650
 F 0 "Q20" H 9505 1696 50  0000 L CNN
@@ -541,7 +505,7 @@ F 3 "" H 9300 1650 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Q_NMOS_GSD Q21
+L device:Q_NMOS_GSD Q21
 U 1 1 588E1BDD
 P 9300 2150
 F 0 "Q21" H 9506 2196 50  0000 L CNN
@@ -589,7 +553,7 @@ Wire Wire Line
 	8500 2400 8500 2500
 Connection ~ 8500 2400
 $Comp
-L R R15
+L device:R R15
 U 1 1 588E1BFD
 P 6850 2300
 F 0 "R15" H 6919 2346 50  0000 L CNN
@@ -603,7 +567,7 @@ Wire Wire Line
 	7500 1900 7300 1900
 Connection ~ 7500 1900
 $Comp
-L R R22
+L device:R R22
 U 1 1 588E1C05
 P 10150 2300
 F 0 "R22" H 10220 2346 50  0000 L CNN
@@ -615,7 +579,7 @@ F 3 "" H 10150 2300 50  0001 C CNN
 $EndComp
 Connection ~ 9550 1900
 $Comp
-L BC849 Q24
+L FTController-rescue:BC849 Q24
 U 1 1 588E1C0C
 P 9800 2300
 F 0 "Q24" H 9990 2346 50  0000 L CNN
@@ -626,7 +590,7 @@ F 3 "" H 6100 150 50  0001 L CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L GND #PWR050
+L power1:GND #PWR050
 U 1 1 588E1C12
 P 9700 2500
 F 0 "#PWR050" H 9700 2250 50  0001 C CNN
@@ -643,7 +607,7 @@ Wire Wire Line
 Text GLabel 10300 2300 2    60   Input ~ 0
 PWM_LX2
 $Comp
-L R R20
+L device:R R20
 U 1 1 588E1C1B
 P 9700 1500
 F 0 "R20" H 9770 1546 50  0000 L CNN
@@ -654,7 +618,7 @@ F 3 "" H 6100 -300 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +9V #PWR051
+L power1:+9V #PWR051
 U 1 1 588E1C21
 P 9700 1350
 F 0 "#PWR051" H 9700 1200 50  0001 C CNN
@@ -666,7 +630,7 @@ F 3 "" H 9700 1350 50  0001 C CNN
 $EndComp
 Connection ~ 9700 1900
 $Comp
-L BC849 Q14
+L FTController-rescue:BC849 Q14
 U 1 1 588E1C28
 P 7200 2300
 F 0 "Q14" H 7391 2346 50  0000 L CNN
@@ -677,7 +641,7 @@ F 3 "" H 3500 150 50  0001 L CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR052
+L power1:GND #PWR052
 U 1 1 588E1C2E
 P 7300 2500
 F 0 "#PWR052" H 7300 2250 50  0001 C CNN
@@ -692,7 +656,7 @@ Wire Wire Line
 Text GLabel 6700 2300 0    60   Input ~ 0
 PWM_LX1
 $Comp
-L R R17
+L device:R R17
 U 1 1 588E1C36
 P 7300 1500
 F 0 "R17" H 7370 1546 50  0000 L CNN
@@ -703,7 +667,7 @@ F 3 "" H 3700 -300 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +9V #PWR053
+L power1:+9V #PWR053
 U 1 1 588E1C3C
 P 7300 1350
 F 0 "#PWR053" H 7300 1200 50  0001 C CNN
@@ -715,7 +679,7 @@ F 3 "" H 7300 1350 50  0001 C CNN
 $EndComp
 Connection ~ 7300 1900
 $Comp
-L Q_NMOS_GSD Q19
+L device:Q_NMOS_GSD Q19
 U 1 1 588E1C49
 P 7750 4050
 F 0 "Q19" H 7955 4096 50  0000 L CNN
@@ -726,7 +690,7 @@ F 3 "" H 7750 4050 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Q_PMOS_GSD Q18
+L device:Q_PMOS_GSD Q18
 U 1 1 588E1C4F
 P 7750 3550
 F 0 "Q18" H 7955 3596 50  0000 L CNN
@@ -737,7 +701,7 @@ F 3 "" H 7750 3550 50  0001 C CNN
 	1    0    0    1   
 $EndComp
 $Comp
-L CONN_01X02 P9
+L tinkerforge:CONN_01X02 P9
 U 1 1 588E1C55
 P 8500 3550
 F 0 "P9" V 8465 3412 50  0000 R CNN
@@ -755,7 +719,7 @@ Wire Wire Line
 	8450 3800 7850 3800
 Connection ~ 7850 3800
 $Comp
-L Q_PMOS_GSD Q22
+L device:Q_PMOS_GSD Q22
 U 1 1 588E1C5F
 P 9300 3550
 F 0 "Q22" H 9505 3596 50  0000 L CNN
@@ -766,7 +730,7 @@ F 3 "" H 9300 3550 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Q_NMOS_GSD Q23
+L device:Q_NMOS_GSD Q23
 U 1 1 588E1C65
 P 9300 4050
 F 0 "Q23" H 9506 4096 50  0000 L CNN
@@ -814,7 +778,7 @@ Wire Wire Line
 	8500 4300 8500 4400
 Connection ~ 8500 4300
 $Comp
-L R R16
+L device:R R16
 U 1 1 588E1C85
 P 6850 4200
 F 0 "R16" H 6919 4246 50  0000 L CNN
@@ -828,7 +792,7 @@ Wire Wire Line
 	7500 3800 7300 3800
 Connection ~ 7500 3800
 $Comp
-L R R23
+L device:R R23
 U 1 1 588E1C8D
 P 10150 4200
 F 0 "R23" H 10220 4246 50  0000 L CNN
@@ -840,7 +804,7 @@ F 3 "" H 10150 4200 50  0001 C CNN
 $EndComp
 Connection ~ 9550 3800
 $Comp
-L BC849 Q25
+L FTController-rescue:BC849 Q25
 U 1 1 588E1C94
 P 9800 4200
 F 0 "Q25" H 9990 4246 50  0000 L CNN
@@ -851,7 +815,7 @@ F 3 "" H 6100 2050 50  0001 L CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L GND #PWR054
+L power1:GND #PWR054
 U 1 1 588E1C9A
 P 9700 4400
 F 0 "#PWR054" H 9700 4150 50  0001 C CNN
@@ -868,7 +832,7 @@ Wire Wire Line
 Text GLabel 10300 4200 2    60   Input ~ 0
 PWM_LY2
 $Comp
-L R R21
+L device:R R21
 U 1 1 588E1CA3
 P 9700 3400
 F 0 "R21" H 9770 3446 50  0000 L CNN
@@ -879,7 +843,7 @@ F 3 "" H 6100 1600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +9V #PWR055
+L power1:+9V #PWR055
 U 1 1 588E1CA9
 P 9700 3250
 F 0 "#PWR055" H 9700 3100 50  0001 C CNN
@@ -891,7 +855,7 @@ F 3 "" H 9700 3250 50  0001 C CNN
 $EndComp
 Connection ~ 9700 3800
 $Comp
-L BC849 Q15
+L FTController-rescue:BC849 Q15
 U 1 1 588E1CB0
 P 7200 4200
 F 0 "Q15" H 7391 4246 50  0000 L CNN
@@ -902,7 +866,7 @@ F 3 "" H 3500 2050 50  0001 L CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR056
+L power1:GND #PWR056
 U 1 1 588E1CB6
 P 7300 4400
 F 0 "#PWR056" H 7300 4150 50  0001 C CNN
@@ -917,7 +881,7 @@ Wire Wire Line
 Text GLabel 6700 4200 0    60   Input ~ 0
 PWM_LY1
 $Comp
-L R R18
+L device:R R18
 U 1 1 588E1CBE
 P 7300 3400
 F 0 "R18" H 7370 3446 50  0000 L CNN
@@ -928,7 +892,7 @@ F 3 "" H 3700 1600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +9V #PWR057
+L power1:+9V #PWR057
 U 1 1 588E1CC4
 P 7300 3250
 F 0 "#PWR057" H 7300 3100 50  0001 C CNN
@@ -942,7 +906,7 @@ Connection ~ 7300 3800
 Text GLabel 1100 5800 0    60   Input ~ 0
 SW_R
 $Comp
-L R R6
+L device:R R6
 U 1 1 588F84C2
 P 1350 5800
 F 0 "R6" V 1143 5800 50  0000 C CNN
@@ -955,7 +919,7 @@ $EndComp
 Wire Wire Line
 	1100 5800 1200 5800
 $Comp
-L Q_NMOS_GSD Q1
+L device:Q_NMOS_GSD Q1
 U 1 1 588F89F6
 P 1900 5800
 F 0 "Q1" H 2105 5846 50  0000 L CNN
@@ -972,7 +936,7 @@ Wire Wire Line
 Wire Wire Line
 	2000 5400 2450 5400
 $Comp
-L CONN_01X02 P5
+L tinkerforge:CONN_01X02 P5
 U 1 1 588F94BB
 P 2500 5150
 F 0 "P5" V 2465 5012 50  0000 R CNN
@@ -987,7 +951,7 @@ Wire Wire Line
 Wire Wire Line
 	2550 5400 2550 5350
 $Comp
-L GNDA #PWR058
+L power1:GNDA #PWR058
 U 1 1 589085FE
 P 3250 4400
 F 0 "#PWR058" H 3300 4450 50  0001 C CNN
@@ -998,7 +962,7 @@ F 3 "" H -2550 -1300 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +9V #PWR059
+L power1:+9V #PWR059
 U 1 1 58908990
 P 3250 3250
 F 0 "#PWR059" H 3250 3100 50  0001 C CNN
@@ -1009,7 +973,7 @@ F 3 "" H 3250 3250 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +9V #PWR060
+L power1:+9V #PWR060
 U 1 1 58908DD7
 P 3250 1350
 F 0 "#PWR060" H 3250 1200 50  0001 C CNN
@@ -1020,7 +984,7 @@ F 3 "" H 3250 1350 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +9V #PWR061
+L power1:+9V #PWR061
 U 1 1 58908FE8
 P 8500 1350
 F 0 "#PWR061" H 8500 1200 50  0001 C CNN
@@ -1031,7 +995,7 @@ F 3 "" H 8500 1350 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +9V #PWR062
+L power1:+9V #PWR062
 U 1 1 589094BA
 P 8500 3250
 F 0 "#PWR062" H 8500 3100 50  0001 C CNN
@@ -1042,7 +1006,7 @@ F 3 "" H 8500 3250 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR063
+L power1:GNDA #PWR063
 U 1 1 5890A38C
 P 3250 2500
 F 0 "#PWR063" H 3300 2550 50  0001 C CNN
@@ -1053,7 +1017,7 @@ F 3 "" H -2550 -3200 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR064
+L power1:GNDA #PWR064
 U 1 1 5890A897
 P 8500 4400
 F 0 "#PWR064" H 8550 4450 50  0001 C CNN
@@ -1064,7 +1028,7 @@ F 3 "" H 2700 -1300 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR065
+L power1:GNDA #PWR065
 U 1 1 5890AF3F
 P 8500 2500
 F 0 "#PWR065" H 8550 2550 50  0001 C CNN
@@ -1075,7 +1039,7 @@ F 3 "" H 2700 -3200 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR066
+L power1:GND #PWR066
 U 1 1 588F8C14
 P 2000 6150
 F 0 "#PWR066" H 2000 5900 50  0001 C CNN
@@ -1086,7 +1050,7 @@ F 3 "" H 2000 6150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR067
+L power1:GNDA #PWR067
 U 1 1 5890CC7B
 P 8250 5150
 F 0 "#PWR067" H 8300 5200 50  0001 C CNN
@@ -1097,7 +1061,7 @@ F 3 "" H 2450 -550 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L GND #PWR068
+L power1:GND #PWR068
 U 1 1 5890CE8B
 P 8250 5650
 F 0 "#PWR068" H 8250 5400 50  0001 C CNN
@@ -1108,7 +1072,7 @@ F 3 "" H 8250 5650 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R19
+L device:R R19
 U 1 1 5890D262
 P 8250 5400
 F 0 "R19" H 8320 5446 50  0000 L CNN
@@ -1129,7 +1093,7 @@ Wire Notes Line
 Wire Notes Line
 	8100 5600 8250 5600
 $Comp
-L Jumper JP1
+L device:Jumper JP1
 U 1 1 5890DFE9
 P 8650 5200
 F 0 "JP1" H 8650 5464 50  0000 C CNN
@@ -1157,7 +1121,7 @@ Optional (Current Measurement)
 Wire Notes Line
 	9500 4800 9500 5950
 $Comp
-L +9V #PWR069
+L power1:+9V #PWR069
 U 1 1 58918FE4
 P 2550 5400
 F 0 "#PWR069" H 2550 5250 50  0001 C CNN
@@ -1168,7 +1132,7 @@ F 3 "" H 2550 5400 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Q_PMOS_GSD Q10
+L device:Q_PMOS_GSD Q10
 U 1 1 5892419B
 P 4050 3550
 F 0 "Q10" H 4255 3596 50  0000 L CNN
@@ -1179,7 +1143,7 @@ F 3 "" H 4050 3550 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L CP C12
+L device:CP C12
 U 1 1 58A2BD28
 P 3900 5650
 F 0 "C12" H 4018 5696 50  0000 L CNN
@@ -1194,7 +1158,7 @@ Wire Wire Line
 Wire Wire Line
 	3900 5800 3900 5900
 $Comp
-L GND #PWR070
+L power1:GND #PWR070
 U 1 1 58A2CA6D
 P 4150 6000
 F 0 "#PWR070" H 4150 5750 50  0001 C CNN
@@ -1209,7 +1173,7 @@ Wire Wire Line
 Wire Wire Line
 	3900 5400 4400 5400
 $Comp
-L C C13
+L device:C C13
 U 1 1 58A2D750
 P 4400 5650
 F 0 "C13" H 4515 5696 50  0000 L CNN
@@ -1220,7 +1184,7 @@ F 3 "" H 0   0   50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +9V #PWR071
+L power1:+9V #PWR071
 U 1 1 58A2D9DB
 P 4150 5300
 F 0 "#PWR071" H 4150 5150 50  0001 C CNN
@@ -1241,7 +1205,7 @@ Wire Wire Line
 	4150 5300 4150 5400
 Connection ~ 4150 5400
 $Comp
-L R R25
+L device:R R25
 U 1 1 58DDFE7C
 P 1600 6000
 F 0 "R25" H 1670 6046 50  0000 L CNN
@@ -1257,7 +1221,7 @@ Wire Wire Line
 	1600 5850 1600 5800
 Connection ~ 1600 5800
 $Comp
-L GND #PWR072
+L power1:GND #PWR072
 U 1 1 58DE08C5
 P 1600 6150
 F 0 "#PWR072" H 1600 5900 50  0001 C CNN

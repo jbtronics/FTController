@@ -1,0 +1,13 @@
+(sym_lib_table
+  (lib (name FTController-rescue)(type Legacy)(uri ${KIPRJMOD}/FTController-rescue.lib)(options "")(descr ""))
+  (lib (name power1)(type Legacy)(uri "E:/Program Files/KiCad5/share/kicad/library/power.lib")(options "")(descr ""))
+  (lib (name device)(type Legacy)(uri "E:/Program Files/KiCad5/share/kicad/library/device.lib")(options "")(descr ""))
+  (lib (name 74xx1)(type Legacy)(uri "E:/Program Files/KiCad5/share/kicad/library/74xx.lib")(options "")(descr ""))
+  (lib (name audio)(type Legacy)(uri "E:/Program Files/KiCad5/share/kicad/library/audio.lib")(options "")(descr ""))
+  (lib (name interface)(type Legacy)(uri "E:/Program Files/KiCad5/share/kicad/library/interface.lib")(options "")(descr ""))
+  (lib (name mechanical)(type Legacy)(uri "E:/Program Files/KiCad5/share/kicad/library/mechanical.lib")(options "")(descr ""))
+  (lib (name tinkerforge)(type Legacy)(uri ${KIPRJMOD}/tinkerforge.lib)(options "")(descr ""))
+  (lib (name avr-isp)(type Legacy)(uri ${KIPRJMOD}/avr-isp.lib)(options "")(descr ""))
+  (lib (name uc121902)(type Legacy)(uri ${KIPRJMOD}/uc121902.lib)(options "")(descr ""))
+  (lib (name nrf24l01-connector)(type Legacy)(uri ${KIPRJMOD}/nrf24l01-connector.lib)(options "")(descr ""))
+)
