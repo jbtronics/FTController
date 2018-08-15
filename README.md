@@ -22,3 +22,6 @@ Der FTController ist eine Motorsteuerung hauptsächlich entwickelt für Fischert
 Für Details siehe `LICENSE.md` in den entsprechenden Verzeichnissen.
 * Software: Die Software steht unter der General Public License 3.0
 * Hardware: Die Design-Files für die Hardware stehen unter "Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)"
+
+## Benötigte Bauteile
+[Hier](https://hackaday.io/project/20349/components) kann eine Liste benötigter Bauteile gefunden werden. Keine Garantie auf Vollständigkeit, sicherer ist der Schaltplan oder die interaktive Bauteileliste die unter `hardware/bom` gefunden werden kann.
