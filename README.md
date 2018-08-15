@@ -26,4 +26,11 @@ Für Details siehe `LICENSE.md` in den entsprechenden Verzeichnissen.
 ## Benötigte Bauteile
 [Hier](https://hackaday.io/project/20349/components) kann eine Liste benötigter Bauteile gefunden werden. Keine Garantie auf Vollständigkeit, sicherer ist der Schaltplan oder die interaktive Bauteileliste die unter `hardware/bom` gefunden werden kann.
 
-## Galerie
+## Galerie:
+### PCB:
+![PCB1](https://github.com/jbtronics/FTController/raw/master/hardware/export/renderings/PCB/top.png)
+![PCB2](https://github.com/jbtronics/FTController/raw/master/hardware/export/renderings/with_parts/1.png)
+
+### Fertiges Gerät:
+![finished1](https://github.com/jbtronics/FTController/raw/master/documentation/pictures/pic5.jpg)
+![finished2](https://github.com/jbtronics/FTController/raw/master/documentation/pictures/pic2.jpg)
